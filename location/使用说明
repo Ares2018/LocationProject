@@ -1,0 +1,49 @@
+1、直接使用定位结果
+  LocationManager.getInstance().getLocation();获取的是缓存中的位置，数据结构为com.daily.news.location.DataLocation
+
+  也可以通过getaMapLocation()和getIPLocation()获取gps定位和ip定位的数据，数据结构为AMapLocation和DataLocation
+
+
+2、先定位，然后获取结果
+   在页面申请位置权限，根据用户选择使用Gps或者IP定位，（如果不申请权限，则不能使用gps，直接转ip定位）
+   然后实现LocationManager中的LocationCallback接口，在接口中获取位置信息LocationManager.getInstance().getLocation();
+
+   PermissionManager.get().request(this, new AbsPermSingleCallBack() {
+               @Override
+               public void onGranted(boolean isAlreadyDef) {
+                   LocationManager.getInstance().startLocation();
+               }
+
+               @Override
+               public void onDenied(List<String> neverAskPerms) {
+                   LocationManager.getInstance().locationIP();
+               }
+           }, Permission.LOCATION_COARSE);
+
+
+
+
+    注册回调监听
+    LocationManager.getInstace().setLocationCallback(this)
+
+
+    回调
+    @Override
+    public void gps_locationSucess(AMapLocation location) {
+        //gps定位成功
+    }
+
+    @Override
+    public void ip_locationSucess(DataLocation location) {
+        //ip定位成功
+    }
+
+    @Override
+    public void locationFail(String error) {
+        //定位失败
+    }
+
+
+3、通过isUpdate(boolean isUpdate)设置是否上传定位，默认上传
+
+

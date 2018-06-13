@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">LocationProject</string>
+
+    <string name="defCity">杭州市</string>
+</resources>
